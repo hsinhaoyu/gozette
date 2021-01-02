@@ -19,7 +19,7 @@ const (
 
 const (
 	indieAuthTokenUrl = "https://tokens.indieauth.com/token"
-	indieAuthMe       = "http://colelyman.com/"
+	indieAuthMe       = "https://hhyu.org/"
 )
 
 type IndieAuthRes struct {
@@ -86,7 +86,7 @@ func checkAccess(token string) (bool, error) {
 }
 
 func CheckAuthorization(entry *Entry, headers map[string]string) bool {
-	token, ok := headers["authorization"]
+	token, ok := headers["Authorization"]
 	if !ok && len(entry.token) == 0 { // there is no token provided
 		return false
 	} else if ok {
@@ -103,7 +103,7 @@ func CheckAuthorization(entry *Entry, headers map[string]string) bool {
 }
 
 func GetContentType(headers map[string]string) (ContentType, error) {
-	if contentType, ok := headers["content-type"]; ok {
+	if contentType, ok := headers["Content-Type"]; ok {
 		if strings.Contains(contentType, "application/x-www-form-urlencoded") {
 			return WWW_FORM, nil
 		}

@@ -11,11 +11,11 @@ import (
 
 var ctx context.Context
 
-var sourceOwner = "Colelyman"
-var authorName = "Cole Lyman"
-var authorEmail = "cole@colelyman.com"
-var sourceRepo = "colelyman-hugo"
-var branch = "master"
+var sourceOwner = "hsinhaoyu"
+var authorName = "Hsin-Hao Yu"
+var authorEmail = "hsinhoahh.yu@@gmail.com"
+var sourceRepo = "hhyu_test"
+var branch = "main"
 
 func CommitEntry(path string, file string) error {
 	client := connectGitHub()
@@ -53,7 +53,9 @@ func getRef(client *github.Client) *github.Reference {
 
 // this function adds the new file to the repo
 func getTree(path string, file string, client *github.Client, ref *github.Reference) (*github.Tree, error) {
-	tree, _, err := client.Git.CreateTree(ctx, sourceOwner, sourceRepo, *ref.Object.SHA, []github.TreeEntry{github.TreeEntry{Path: github.String(path), Type: github.String("blob"), Content: github.String(file), Mode: github.String(("100644"))}})
+	tree, _, err := client.Git.CreateTree(ctx,sourceOwner,sourceRepo,*ref.Object.SHA,
+		[]*github.TreeEntry{
+			&github.TreeEntry{Path: github.String(path),Type: github.String("blob"),Content: github.String(file),Mode: github.String(("100644"))}})
 
 	return tree, err
 }
@@ -69,7 +71,7 @@ func pushCommit(client *github.Client, ref *github.Reference, tree *github.Tree)
 	date := time.Now()
 	author := &github.CommitAuthor{Date: &date, Name: &authorName, Email: &authorEmail}
 	message := "Added new micropub entry."
-	commit := &github.Commit{Author: author, Message: &message, Tree: tree, Parents: []github.Commit{*parent.Commit}}
+	commit := &github.Commit{Author: author, Message: &message, Tree: tree, Parents: []*github.Commit{parent.Commit}}
 	newCommit, _, err := client.Git.CreateCommit(ctx, sourceOwner, sourceRepo, commit)
 	if err != nil {
 		return err

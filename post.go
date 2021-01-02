@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	timeZone   = "MST"
+	timeZone   = "Australia/Sydney" 
 	timeFormat = time.RFC822
 )
 
@@ -58,5 +58,5 @@ func WriteHugoPost(entry *Entry) (string, string) {
 
 	path := entry.Slug + ".md"
 
-	return "site/content/micro/" + path, buff.String()
+	return "content/micro/" + path, buff.String()
 }
